@@ -1,0 +1,13 @@
+{
+  "name": "mini-db",
+  "version": "1.0.0",
+  "description": "A small JS based DB system, use predicate function to query and manipulate information of data-base.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "node script/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
