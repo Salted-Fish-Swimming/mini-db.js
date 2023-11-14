@@ -39,4 +39,20 @@ class TextFile {
 
 }
 
-export { TextFile }
+class JsonFile {
+
+  constructor (filepath, defaultContent = []) {
+    this.textfile = new TextFile(filepath, JSON.stringify(defaultContent));
+  }
+
+  async read () {
+    return JSON.parse(await this.textfile.read());
+  }
+
+  async write (content) {
+    return await this.textfile.write(JSON.stringify(content, null, 2));
+  }
+
+}
+
+export { TextFile, JsonFile }
