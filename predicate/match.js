@@ -1,8 +1,18 @@
-const matchAll = (pattern, objekt) => {
+const partial = (pattern, objekt) => {
   if (Array.isArray(pattern)) {
-    return matchArray(pattern, objekt);
+    for (const idx in pattern) {
+      if (partial(pattern[idx], objekt[i])) {} else {
+        return false;
+      }
+    }
+    return true;
   } else if (typeof pattern === 'object') {
-    return matchobjekt(pattern, objekt);
+    for (const key in pattern) {
+      if (partial(pattern[key], objekt[key])) {} else {
+        return false;
+      }
+    }
+    return true;
   } else if (typeof pattern === 'function') {
     return pattern(objekt);
   } else {
@@ -10,10 +20,22 @@ const matchAll = (pattern, objekt) => {
   }
 };
 
-const matchArray = (pattern, array) => {
-  if (Array.isArray(array)) {
-    for (const idx in pattern) {
-      if (matchAll(pattern[idx], array[i])) {} else {
+const total = (pattern, objekt) => {
+  if (Array.isArray(pattern)) {
+    return totalArray(pattern, objekt);
+  } else if (typeof pattern === 'object') {
+    return totalObjekt(pattern, objekt);
+  } else if (typeof pattern === 'function') {
+    return pattern(objekt);
+  } else {
+    return pattern === objekt;
+  }
+}
+
+const totalArray = (pattern, array) => {
+  if (Array.isArray(array) && pattern.length === array.length) {
+    for (const index in pattern) {
+      if (total(pattern[index], array[index])) {} else {
         return false;
       }
     }
@@ -23,21 +45,27 @@ const matchArray = (pattern, array) => {
   }
 };
 
-const matchobjekt = (pattern, objekt) => {
+const totalObjekt = (pattern, objekt) => {
   if (typeof objekt === 'object') {
-    for (const key in pattern) {
-      if (matchAll(pattern[key], objekt[key])) {} else {
-        return false;
-      }
+    const pkeys = Object.keys(pattern);
+    const okeys = Object.keys(objekt);
+    if (pkeys.length === okeys.length) {
+      for (const key in pattern) {
+        const subpat = pattern[key];
+        if (total(pattern[key], objekt[key])) {} else {
+          return false;
+        }
+      };
+      return true;
     }
-    return true;
-  } else {
-    return false;
   }
+  return false;
 };
 
-const match = matchAll;
-const m = pat => obj => match(pat, obj)
+const match = { partial, total, }
+const m = {
+  p: p => v => partial(p, v),
+  t: p => v => total(p, v),
+};
 
-export { m }
-export default match
+export { m, match }
