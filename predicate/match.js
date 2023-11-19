@@ -37,6 +37,7 @@ const matchobjekt = (pattern, objekt) => {
 };
 
 const match = matchAll;
+const m = pat => obj => match(pat, obj)
 
-export { match as m }
+export { m }
 export default match
